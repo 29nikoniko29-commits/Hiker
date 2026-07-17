@@ -1,0 +1,43 @@
+local spawner = loadstring(game:HttpGet("https://raw.githubusercontent.com/vct0721/Doors-Stuff/main/Other/CustomEyeSpawnerSource.lua"))()
+
+local CustomEyeSpawnerConfig = { 
+    CustomName = "Hiker",
+    Model = "rbxassetid://11421384786",
+    DelayTime = 0.7,
+    HeightOffset = 0,
+    CanKill = true,
+
+    DamageConfig = {
+        DamageAmount = 0,
+        DamageOnLook = 0,
+        DamageOnNotLooking = false,
+        DamageOnEntitySeeing = false,
+    },
+
+    KillRangeConfig = {
+        IsEnabled = false,
+        Range = 7,
+    },
+
+    TeleportConfig = {
+        Forced = false,
+        Min = 0,
+        Max = 0,
+    },
+
+    DeathConfig = { 
+        Type = "Blue",
+        Hints = {
+            "Hiker killed you...", 
+            "Try not to get well… Killed.", 
+            "I hope you follow the guide!", 
+            "Next time, don't try to kill by him", 
+            "Hiker is always watching.", 
+            "Maybe don’t get killed by him?", 
+            "Surprise! You are not bad guy if u not skip thats messages."
+        },
+        Cause = "Hiker"
+    }
+}
+
+spawner.spawnEntity(HikerRemakeSpawnerConfig)
