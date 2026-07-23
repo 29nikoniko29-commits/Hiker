@@ -12,20 +12,28 @@ elements.blue_lattice = {
 
 // ---------- CRAMMER ----------
 elements.crammer = {
-    color: "#7CFC00", // Lime
+    color: "#7CFC00",
+    behavior: [
+		    "CL|XX|CL",
+		    "XX|XX|XX",
+		    "CL|XX|CL"
     category: "special",
     state: "solid",
     density: 1000,
-
+    // Makes it grow faster than normal spreading elements
     tick: function(pixel) {
-        // Grow 1.1x faster than lattice/filler
-        for (let i = 0; i < 11; i++) {
-            var x = pixel.x + Math.floor(Math.random() * 3) - 1;
-            var y = pixel.y + Math.floor(Math.random() * 3) - 1;
+        if (Math.random() < 0.1) {
+            var coords = [
+                [pixel.x + 1, pixel.y],
+                [pixel.x - 1, pixel.y],
+                [pixel.x, pixel.y + 1],
+                [pixel.x, pixel.y - 1]
+            ];
 
-            if (isEmpty(x, y)) {
-                createPixel("crammer", x, y);
-                break;
+            var pos = coords[Math.floor(Math.random() * coords.length)];
+
+            if (isEmpty(pos[0], pos[1])) {
+                createPixel("crammer", pos[0], pos[1]);
             }
         }
     }
@@ -33,46 +41,32 @@ elements.crammer = {
 
 // ---------- LOADER ----------
 elements.loader = {
-    color: "#00FFFF", // Cyan
+    color: "#00FFFF",
     category: "special",
     state: "solid",
     density: 1000,
-
-    tick: function(pixel) {
-        // Same growth as crammer
-        for (let i = 0; i < 11; i++) {
-            var x = pixel.x + Math.floor(Math.random() * 3) - 1;
-            var y = pixel.y + Math.floor(Math.random() * 3) - 1;
-
-            if (isEmpty(x, y)) {
-                createPixel("loader", x, y);
-                break;
-            }
-        }
-    },
+    behavior: [
+        "CL|XX|CL",
+        "XX|XX|XX",
+        "CL|XX|CL"
+    ],
 
     reactions: {
-        neutron: {
-            elem1: "explosion",
-            chance: 1
-        },
-        proton: {
-            elem1: "explosion",
-            chance: 1
-        },
-        uranium: {
-            elem1: "explosion",
-            chance: 1
-        },
-        bless: {
-            elem1: "explosion",
-            chance: 1
-        },
-
-        // Loader ignores strange matter infection
         strange_matter: {
             elem1: "loader",
             elem2: "strange_matter"
+        },
+        neutron: {
+            elem1: "explosion"
+        },
+        proton: {
+            elem1: "explosion"
+        },
+        uranium: {
+            elem1: "explosion"
+        },
+        bless: {
+            elem1: "explosion"
         }
     }
 };
