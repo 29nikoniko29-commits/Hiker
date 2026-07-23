@@ -26,4 +26,4 @@ elements.destructive_blue_lattice = {
     hidden: true,
 };
 
-elements.lattice.reactions.laser = { "elem1":"blue_lattice", "elem2": "blue_lattice"
+elements.filler.reactions.laser = { "elem1":"blue_lattice", "elem2": "blue_lattice"
