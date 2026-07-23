@@ -1,50 +1,58 @@
-// Blue Lattice, Crammer, and Loader Mod
+// Crammer + Loader Mod
+// Sandboxels
 
 // ---------- BLUE LATTICE ----------
 elements.blue_lattice = {
-    color: "#3a7cff",
-    behavior: behaviors.WALL,
-    category: "solids",
+    color: "#3A7CFF",
+    category: "special",
     state: "solid",
-    density: 1800,
-    hardness: 1,
+    density: 1500,
+
+    behavior: [
+        "CL|XX|CL",
+        "XX|XX|XX",
+        "CL|XX|CL"
+    ]
 };
+
 
 // ---------- CRAMMER ----------
 elements.crammer = {
     color: "#7CFC00",
-    behavior: [
-		    "CL|XX|CL",
-		    "XX|XX|XX",
-		    "CL|XX|CL"
     category: "special",
     state: "solid",
     density: 1000,
-    // Makes it grow faster than normal spreading elements
+
+    behavior: [
+        "CL|XX|CL",
+        "XX|XX|XX",
+        "CL|XX|CL"
+    ],
+
     tick: function(pixel) {
-        if (Math.random() < 0.1) {
-            var coords = [
-                [pixel.x + 1, pixel.y],
-                [pixel.x - 1, pixel.y],
-                [pixel.x, pixel.y + 1],
-                [pixel.x, pixel.y - 1]
-            ];
+        // 1.1x faster growth
+        if (Math.random() < 0.11) {
+            for (let i = 0; i < 8; i++) {
+                let x = pixel.x + Math.floor(Math.random() * 3) - 1;
+                let y = pixel.y + Math.floor(Math.random() * 3) - 1;
 
-            var pos = coords[Math.floor(Math.random() * coords.length)];
-
-            if (isEmpty(pos[0], pos[1])) {
-                createPixel("crammer", pos[0], pos[1]);
+                if (isEmpty(x,y)) {
+                    createPixel("crammer",x,y);
+                    break;
+                }
             }
         }
     }
 };
+
 
 // ---------- LOADER ----------
 elements.loader = {
     color: "#00FFFF",
     category: "special",
     state: "solid",
-    density: 1000,
+    density: 1200,
+
     behavior: [
         "CL|XX|CL",
         "XX|XX|XX",
@@ -52,21 +60,30 @@ elements.loader = {
     ],
 
     reactions: {
+        neutron: {
+            elem1: "explosion",
+            chance: 1
+        },
+
+        proton: {
+            elem1: "explosion",
+            chance: 1
+        },
+
+        uranium: {
+            elem1: "explosion",
+            chance: 1
+        },
+
+        bless: {
+            elem1: "explosion",
+            chance: 1
+        },
+
+        // Immune to strange matter
         strange_matter: {
             elem1: "loader",
-            elem2: "strange_matter"
-        },
-        neutron: {
-            elem1: "explosion"
-        },
-        proton: {
-            elem1: "explosion"
-        },
-        uranium: {
-            elem1: "explosion"
-        },
-        bless: {
-            elem1: "explosion"
+            elem2: null
         }
     }
 };
